@@ -59,10 +59,11 @@ elmo-hikes/
 
 
 ## Contributors
-- **Your Name** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
-- Evan Tang - BCIT CST Student, Loves to play videogames and watch sports like hockey basketball football and soccer.
+
+- **Evan Tang** - BCIT CST Student, Loves to play videogames and watch sports like hockey basketball football and soccer.
+
 - **Giant Mak** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
-- **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
+
 
 ---
 
