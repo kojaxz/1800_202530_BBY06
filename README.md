@@ -60,11 +60,12 @@ elmo-hikes/
 
 ## Contributors
 
+- **Evan Tang** - BCIT CST Student, Loves to play videogames and watch sports like hockey basketball football and soccer.
+
 - **Jack Moscovitch** - BCIT CST Student who enjoyes photography and playing video games Fun fact: Favorite game is Hollow Knight.
 
 - **Giant Mak** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
 
-- **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 
 ---
 
