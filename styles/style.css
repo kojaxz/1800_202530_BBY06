@@ -1,3 +1,4 @@
+
 .planBox{
     margin: 0em 1em 1em 1em;
     width: 30vw;
@@ -18,4 +19,80 @@
             background-color: rgb(214, 214, 214);
         }
     }
+}
+body {
+  font-family: 'Lexend Deca', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* subtle light background */
+}
+
+#WelcomeBanner {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 2rem 1rem 1rem 1rem;
+  color: #343a40;
+}
+
+#WelcomeText {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 0 auto 2rem auto;
+  max-width: 700px;
+  line-height: 1.6;
+  color: #495057;
+}
+
+#how-it-works {
+  padding: 3rem 1rem;
+  background-color: #ffffff;
+}
+
+#how-it-works .section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #343a40;
+}
+
+.steps-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.step {
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.step-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0d6efd;
+  margin-bottom: 1rem;
+}
+
+.step h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  font-size: 0.95rem;
+  color: #495057;
+  line-height: 1.4;
 }
