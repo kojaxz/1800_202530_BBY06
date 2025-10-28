@@ -1,1 +1,21 @@
-
+.planBox{
+    margin: 0em 1em 1em 1em;
+    width: 30vw;
+    height: 100vh;
+    border-right: solid rgb(214, 214, 214);
+    h1{
+        padding-top: 0.3em;
+        margin: 0 0 0.5em 0.2em;
+    }
+    .Msg-Box{
+        margin-right: 1em;
+        border-radius: 20px;
+        padding-left: 0.7em;
+        p{
+            color: rgb(126, 126, 126);
+        }
+        &:hover{
+            background-color: rgb(214, 214, 214);
+        }
+    }
+}
