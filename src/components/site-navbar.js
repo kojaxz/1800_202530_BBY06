@@ -29,6 +29,9 @@ class SiteNavbar extends HTMLElement {
                                 <a class="nav-link" href="/">Home</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="profile.html">Profile</a>
+                            </li>                            
+                            <li class="nav-item">
                                 <a class="nav-link" href="#">Chats</a>
                             </li>
                             <li class="nav-item">
