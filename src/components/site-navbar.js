@@ -26,7 +26,7 @@ class SiteNavbar extends HTMLElement {
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
+                                <a class="nav-link" href="home.html">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="profile.html">Profile</a>
