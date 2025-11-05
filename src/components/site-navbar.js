@@ -35,10 +35,10 @@ class SiteNavbar extends HTMLElement {
                                 <a class="nav-link" href="main.html">Chats</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Create</a>
+                                <a class="nav-link" href="create.html">Create</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Add Friend</a>
+                                <a class="nav-link" href="#">Join</a>
                             </li>
                         </ul>
                         <div class="d-flex align-items-center gap-2 ms-lg-2" id="rightControls">

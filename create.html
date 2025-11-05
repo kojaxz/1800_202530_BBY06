@@ -30,27 +30,34 @@
 
     <!-- Main content goes here -->
     <div class="container">
-        <h1>User Profile </h1>
+        <br>
+        <h1>Create a Plan</h1>
+        <br>
         <form>
-            <fieldset class="mb-3" id="personalInfoFields" disabled>
+            <fieldset class="mb-3" id="planFields" disabled>
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" id="nameInput" class="form-control" placeholder="Enter your name">
+                    <label>Name of Plan</label>
+                    <input type="text" id="nameInput" class="form-control" placeholder="Enter Name">
                 </div>
                 <br>
                 <div class="form-group">
-                    <label>School</label>
-                    <input type="text" id="schoolInput" class="form-control" placeholder="Enter your school">
+                    <label>Description</label>
+                    <input type="text" id="descriptionInput" class="form-control" placeholder="Enter Description">
                 </div>
                 <br>
                 <div class="form-group">
-                    <label>City</label>
-                    <input type="text" id="cityInput" class="form-control" placeholder="Enter your city">
+                    <label>Time</label>
+                    <input type="text" id="timeInput" class="form-control" placeholder="Enter Time">
                 </div>
                 <br>
                 <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="text" id="phoneNumInput" class="form-control" placeholder="Enter your phone number">
+                    <label>Date</label>
+                    <input type="text" id="dateInput" class="form-control" placeholder="Enter Date">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Number of Members</label>
+                    <input type="text" id="membersInput" class="form-control" placeholder="Enter Number of Members">
                 </div>
             </fieldset>
             <div class="d-flex justify-content-end mt-5">
@@ -69,7 +76,7 @@
     <!---------------------------------------------->
 
     <script type="module" src="/src/app.js"></script>
-    <script type="module" src="/src/profile.js"></script>
+    <script type="module" src="/src/create.js"></script>
 </body>
 
 </html>
