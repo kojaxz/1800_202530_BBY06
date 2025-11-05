@@ -22,11 +22,12 @@ function populateUserInfo() {
         if (userSnap.exists()) {
           const userData = userSnap.data();
 
-          const { name = "", school = "", city = "" } = userData;
+          const { name = "", school = "", city = "", phoneNum = "" } = userData;
 
           document.getElementById("nameInput").value = name;
           document.getElementById("schoolInput").value = school;
           document.getElementById("cityInput").value = city;
+          document.getElementById("phoneNumInput").value = phoneNum;
         } else {
           console.log("No such document!");
         }
@@ -67,8 +68,9 @@ async function saveUserInfo() {
   const userName = document.getElementById('nameInput').value;       //get the value of the field with id="nameInput"
   const userSchool = document.getElementById('schoolInput').value;     //get the value of the field with id="schoolInput"
   const userCity = document.getElementById('cityInput').value;       //get the value of the field with id="cityInput"
+  const userNum = document.getElementById('phoneNumInput').value;
   //b) update user's document in Firestore
-  await updateUserDocument(user.uid, userName, userSchool, userCity);
+  await updateUserDocument(user.uid, userName, userSchool, userCity, userNum);
   //c) disable edit 
   document.getElementById('personalInfoFields').disabled = true;     //-------------------------------------------------------------
   // Updates the user document in Firestore with new values
@@ -76,10 +78,10 @@ async function saveUserInfo() {
   //   uid (string)  – user’s UID
   //   name, school, city (strings)
   //-------------------------------------------------------------
-  async function updateUserDocument(uid, name, school, city) {
+  async function updateUserDocument(uid, name, school, city ,phoneNum) {
     try {
       const userRef = doc(db, "users", uid);
-      await updateDoc(userRef, { name, school, city });
+      await updateDoc(userRef, { name, school, city, phoneNum });
       console.log("User document successfully updated!");
     } catch (error) {
       console.error("Error updating user document:", error);
