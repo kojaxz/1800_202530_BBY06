@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>My BCIT Project</title>
-    <meta name="comp1800 template" content="My 1800 App" />
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <title>My BCIT Project</title>
+  <meta name="comp1800 template" content="My 1800 App" />
 
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Link to styles of your own -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,31 +20,31 @@
     <link rel="stylesheet" href="styles/style.css">
   </head>
 
-  <body>
-    <script type="module" src="./src/main.js"></script>
-    <site-navbar></site-navbar>
+  <!-- Web Components for shared navbar and footer layout -->
+  <script type="module" src="/src/components/site-navbar.js"></script>
+  <script type="module" src="/src/components/site-footer.js"></script>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
 
-    <div class="planBox">
-      <h1>
-        Plans
-      </h1>
-      <div class="Msg-Box">
-        <h3>Plan 1</h3>
-        <p>Preveiw of most recent message</p>
-      </div>
-      <div class="Msg-Box">
-        <h3>Plan 2</h3>
-        <p>Preveiw of most recent message</p>
-      </div>
-      <div class="Msg-Box">
-        <h3>Plan 3</h3>
-        <p>Preveiw of most recent message</p>
-      </div>
-      <div class="Msg-Box">
-        <h3>Plan 4</h3>
-        <p>Preveiw of most recent message</p>
-      </div>
+<body>
+  <site-navbar></site-navbar>
+  
+  
+  <div id="planBox">
+    <h1>
+      Plans
+    </h1>
+    <div id="plans-here"></div>
+  </div>
+  
+  <template id="planTemplate">
+    <div class="Msg-Box">
+      <h3 class="plan-title">Plan 1</h3>
+      <p class="plan-info">Preveiw of most recent message</p>
     </div>
+  </template>
+  
+  <script type="module" src="./src/main.js"></script>
+</body>
 
-  </body>
 </html>

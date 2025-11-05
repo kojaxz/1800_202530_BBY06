@@ -1,4 +1,11 @@
-.planBox{
+body {
+  font-family: 'Lexend Deca', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* subtle light background */
+}
+
+#planBox{
     margin: 0em 1em 1em 1em;
     width: 30vw;
     height: 100vh;
