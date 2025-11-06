@@ -29,41 +29,37 @@
     <site-navbar></site-navbar>
 
     <!-- Main content goes here -->
-    <div class="container">
-        <br>
-        <h1>Create a Plan</h1>
-        <br>
-        <form>
-            <fieldset class="mb-3" id="planFields" disabled>
-                <div class="form-group">
-                    <label>Name of Plan</label>
-                    <input type="text" id="nameInput" class="form-control" placeholder="Enter Name">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" id="descriptionInput" class="form-control" placeholder="Enter Description">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label>Time</label>
-                    <input type="text" id="timeInput" class="form-control" placeholder="Enter Time">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="text" id="dateInput" class="form-control" placeholder="Enter Date">
-                </div>
-                <br>
-                <div class="form-group">
-                    <label>Number of Members</label>
-                    <input type="text" id="membersInput" class="form-control" placeholder="Enter Number of Members">
-                </div>
-            </fieldset>
-            <div class="d-flex justify-content-end mt-5">
-                <button id="editButton" type="button" class="btn btn-secondary">Edit</button>
-                <span style="width: 10px"></span>
-                <button id="saveButton" type="button" class="btn btn-info">Save</button>
+    <div class="container py-5" >
+        <br> <h1>Create a Plan</h1> <br>
+        <!-- Alert container -->
+        <div id="planAlert" class="alert d-none" role="alert"></div>
+
+        <!-- Form -->
+        <form id="planForm" class="card p-4 shadow-sm needs-validation" novalidate>
+            <div class="mb-3">
+            <label for="nameInput" class="form-label">Plan Name <span class="text-danger">*</span></label>
+            <input type="text" id="nameInput" class="form-control" placeholder="Enter plan name" required />
+            <div class="invalid-feedback">Please enter a plan name.</div>
+            </div>
+            <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Description <span class="text-danger">*</span></label>
+            <textarea id="descriptionInput" class="form-control" rows="3" placeholder="Enter plan description" required></textarea>
+            <div class="invalid-feedback">Please provide a short description.</div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="dateInput" class="form-label">Date <span class="text-danger">*</span></label>
+                <input type="date" id="dateInput" class="form-control" required />
+                <div class="invalid-feedback">Please choose a date.</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="timeInput" class="form-label">Time <span class="text-danger">*</span></label>
+                <input type="time" id="timeInput" class="form-control" required />
+                <div class="invalid-feedback">Please choose a time.</div>
+            </div>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+            <button id="saveButton" type="submit" class="btn btn-info">Save</button>
             </div>
         </form>
     </div>
@@ -77,6 +73,22 @@
 
     <script type="module" src="/src/app.js"></script>
     <script type="module" src="/src/create.js"></script>
+    <script>
+        const form = document.querySelector("#planForm");
+
+        form.addEventListener("submit", (event) => {
+            if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            } else {
+            event.preventDefault();
+            // ✅ Firestore save logic goes here
+            console.log("Form valid! Ready to save.");
+            }
+
+            form.classList.add("was-validated");
+        });
+    </script>
 </body>
 
 </html>

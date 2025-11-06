@@ -1,22 +1,21 @@
-// -------------------------------------------------------------
 // src/loginSignup.js
-// -------------------------------------------------------------
-// Part of the COMP1800 Projects 1 Course (BCIT).
-// Starter code provided for students to use and adapt.
-// Manages the login/signup form behaviour and redirects.
-// -------------------------------------------------------------
+// Handles Login/Signup with validation and Firebase Authentication
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import "../styles/style.css";
 import { loginUser, signupUser, authErrorMessage } from "./authentication.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "/src/firebaseConfig.js";
 
-// --- Login and Signup Page ---
-// Handles toggling between Login/Signup views and form submits
-// using plain DOM APIs for simplicity and maintainability.
+// Redirect if already logged in
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "main.html";
+  }
+});
 
 function initAuthUI() {
-  // --- DOM Elements ---
   const alertEl = document.getElementById("authAlert");
   const loginView = document.getElementById("loginView");
   const signupView = document.getElementById("signupView");
@@ -26,36 +25,36 @@ function initAuthUI() {
   const signupForm = document.getElementById("signupForm");
   const redirectUrl = "main.html";
 
-  // --- Helper Functions ---
-  // Toggle element visibility
+  // --- Helpers ---
   function setVisible(el, visible) {
     el.classList.toggle("d-none", !visible);
   }
 
-  // Show error message with accessibility and auto-hide
-  let errorTimeout;
   function showError(msg) {
     alertEl.textContent = msg || "";
     alertEl.classList.remove("d-none");
-    clearTimeout(errorTimeout);
-    errorTimeout = setTimeout(hideError, 5000); // Auto-hide after 5s
+    setTimeout(() => alertEl.classList.add("d-none"), 5000); // auto-hide 5s
   }
 
-  // Hide error message
   function hideError() {
     alertEl.classList.add("d-none");
     alertEl.textContent = "";
-    clearTimeout(errorTimeout);
   }
 
-  // Enable/disable submit button for forms
   function setSubmitDisabled(form, disabled) {
     const submitBtn = form?.querySelector('[type="submit"]');
     if (submitBtn) submitBtn.disabled = disabled;
   }
 
-  // --- Event Listeners ---
-  // Toggle buttons
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function isValidPassword(password) {
+    return password.length >= 6; // Firebase minimum password length
+  }
+
+  // --- Toggle views ---
   toSignupBtn?.addEventListener("click", (e) => {
     e.preventDefault();
     hideError();
@@ -72,16 +71,29 @@ function initAuthUI() {
     loginView?.querySelector("input")?.focus();
   });
 
-  // Login form submit
+  // --- Login ---
   loginForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideError();
+
     const email = document.querySelector("#loginEmail")?.value?.trim() ?? "";
     const password = document.querySelector("#loginPassword")?.value ?? "";
+
     if (!email || !password) {
       showError("Please enter your email and password.");
       return;
     }
+
+    if (!isValidEmail(email)) {
+      showError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      showError("Password must be at least 6 characters.");
+      return;
+    }
+
     setSubmitDisabled(loginForm, true);
     try {
       await loginUser(email, password);
@@ -94,17 +106,30 @@ function initAuthUI() {
     }
   });
 
-  // Signup form submit
+  // --- Signup ---
   signupForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideError();
+
     const name = document.querySelector("#signupName")?.value?.trim() ?? "";
     const email = document.querySelector("#signupEmail")?.value?.trim() ?? "";
     const password = document.querySelector("#signupPassword")?.value ?? "";
+
     if (!name || !email || !password) {
       showError("Please fill in name, email, and password.");
       return;
     }
+
+    if (!isValidEmail(email)) {
+      showError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      showError("Password must be at least 6 characters.");
+      return;
+    }
+
     setSubmitDisabled(signupForm, true);
     try {
       await signupUser(name, email, password);
@@ -116,7 +141,19 @@ function initAuthUI() {
       setSubmitDisabled(signupForm, false);
     }
   });
+
+  // --- Auto open signup if mode=signup in URL ---
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+
+  if (mode === "signup") {
+    setVisible(loginView, false);
+    setVisible(signupView, true);
+  } else {
+    setVisible(loginView, true);
+    setVisible(signupView, false);
+  }
 }
 
-// --- Initialize UI on DOMContentLoaded ---
+// --- Initialize ---
 document.addEventListener("DOMContentLoaded", initAuthUI);
