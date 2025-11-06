@@ -53,20 +53,24 @@ export async function loginUser(email, password) {
 //   const user = await signupUser("Alice", "alice@email.com", "secret");
 // -------------------------------------------------------------
 export async function signupUser(name, email, password) {
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const userCredential = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
   const user = userCredential.user; // Get the user object
   await updateProfile(user, { displayName: name });
-  
+
   try {
     await setDoc(doc(db, "users", user.uid), {
       name: name,
       email: email,
       createdDate: serverTimestamp(),
-      friends: [],                  // empty array initially
-      recentPlans: [],              // empty array initially
+      friends: [], // empty array initially
+      recentPlans: [], // empty array initially
       preferences: {
-        darkMode: false,            // default preference
-        notifications: true,        // default preference
+        darkMode: false, // default preference
+        notifications: true, // default preference
       },
     });
     console.log("Firestore user document created successfully!");
@@ -151,4 +155,3 @@ export function authErrorMessage(error) {
 
   return map[code] || "Something went wrong. Please try again.";
 }
-
