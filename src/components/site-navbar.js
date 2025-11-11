@@ -26,7 +26,7 @@ class SiteNavbar extends HTMLElement {
               <li class="nav-item protected-link"><a class="nav-link" href="profile.html">Profile</a></li>
               <li class="nav-item protected-link"><a class="nav-link" href="main.html">Chats</a></li>
               <li class="nav-item protected-link"><a class="nav-link" href="create.html">Create</a></li>
-              <li class="nav-item protected-link"><a class="nav-link" href="#">Join</a></li>
+              <li class="nav-item protected-link"><a class="nav-link" href="join.html">Join</a></li>
             </ul>
 
             <div class="d-flex align-items-center gap-2 ms-lg-2">
@@ -54,14 +54,16 @@ class SiteNavbar extends HTMLElement {
       // Populate login/logout button
       if (user) {
         authControls.innerHTML = `<button class="btn btn-outline-dark" id="signOutBtn" type="button" style="min-width: 80px;">Log out</button>`;
-        authControls.querySelector("#signOutBtn")?.addEventListener("click", logoutUser);
+        authControls
+          .querySelector("#signOutBtn")
+          ?.addEventListener("click", logoutUser);
       } else {
         authControls.innerHTML = `<a class="btn btn-outline-dark" id="loginBtn" href="/login.html" style="min-width: 80px;">Log in</a>`;
       }
 
       // Protect certain links
       const protectedLinks = this.querySelectorAll(".protected-link a");
-      protectedLinks.forEach(link => {
+      protectedLinks.forEach((link) => {
         link.addEventListener("click", (e) => {
           if (!user) {
             e.preventDefault();
