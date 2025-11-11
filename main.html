@@ -3,11 +3,8 @@
   <head>
     <title>My BCIT Project</title>
     <meta name="comp1800 template" content="My 1800 App" />
-
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Link to styles of your own -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,27 +12,70 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles/style.css" />
-
-    <!-- Web Components for shared navbar and footer layout -->
     <script type="module" src="/src/components/site-navbar.js"></script>
     <script type="module" src="/src/components/site-footer.js"></script>
     <link rel="stylesheet" href="styles/style.css" />
+    <style>
+      #container {
+        display: flex;
+        height: 100vh;
+      }
+      #planBox {
+        width: 30vw;
+        border-right: 1px solid #d6d6d6;
+        overflow-y: auto;
+      }
+      #plans-here .Msg-Box {
+        margin: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      #plans-here .Msg-Box:hover {
+        background-color: #e0e0e0;
+      }
+      #messageBox {
+        flex-grow: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden;
+      }
+      #chat-box {
+        flex-grow: 1;
+        overflow-y: auto;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        padding: 0.5rem;
+        background-color: #fff;
+      }
+      #chat-form {
+        display: flex;
+        margin-top: 0.5rem;
+      }
+      #chat-form input {
+        flex-grow: 1;
+        margin-right: 0.5rem;
+      }
+    </style>
   </head>
+
   <body>
     <site-navbar></site-navbar>
-
-    <div id="planBox">
-      <h1>Plans</h1>
-      <div id="plans-here"></div>
-    </div>
-
-    <template id="planTemplate">
-      <div class="Msg-Box">
-        <h3 class="plan-title">Plan 1</h3>
-        <p class="plan-info">Preveiw of most recent message</p>
+    <div id="container">
+      <div id="planBox">
+        <h1>Plans</h1>
+        <div id="plans-here"></div>
       </div>
-    </template>
-
+      <div id="messageBox">
+        <h2 id="chatTitle">Select a plan to view messages</h2>
+        <div id="chat-box"></div>
+        <form id="chat-form">
+          <input type="text" placeholder="Type a message..." required />
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+      </div>
+    </div>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>

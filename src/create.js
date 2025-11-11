@@ -1,9 +1,17 @@
 import { db, auth } from "./firebaseConfig.js";
-import { collection, addDoc, serverTimestamp, Timestamp, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  Timestamp,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 
 const form = document.querySelector("#planForm");
 const alertEl = document.getElementById("planAlert");
 
+// Show alert function
 function showAlert(message, type = "danger", showLoginBtn = false) {
   alertEl.textContent = message;
   alertEl.className = `alert alert-${type} mt-3`;
@@ -18,6 +26,30 @@ function showAlert(message, type = "danger", showLoginBtn = false) {
     });
     alertEl.appendChild(btn);
   }
+}
+
+// Generate random 6-character join code
+function generateJoinCode() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let code = "";
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
+// Ensure join code is unique
+async function generateUniqueJoinCode() {
+  let unique = false;
+  let code = "";
+  const plansRef = collection(db, "plans");
+
+  while (!unique) {
+    code = generateJoinCode();
+    const snap = await getDoc(doc(plansRef, code));
+    if (!snap.exists()) unique = true; // unique
+  }
+  return code;
 }
 
 form.addEventListener("submit", async (event) => {
@@ -38,25 +70,30 @@ form.addEventListener("submit", async (event) => {
   }
 
   try {
-    // Create a reference to the user document in Firestore
     const userRef = doc(db, "users", user.uid);
+
+    // Generate a unique join code
+    const joinCode = await generateUniqueJoinCode();
 
     const newPlan = {
       title,
       description,
-      createdBy: userRef,          
+      joinCode, // <-- added joinCode field
+      createdBy: userRef,
       createdAt: serverTimestamp(),
       eventDate: Timestamp.fromDate(eventDate),
-      members: [userRef],        
-      restaurant: null,             // Not chosen yet
+      members: [userRef],
+      restaurant: null,
     };
 
     const docRef = await addDoc(collection(db, "plans"), newPlan);
-    console.log("Plan created with ID:", docRef.id);
+    console.log("Plan created with ID:", docRef.id, "Join Code:", joinCode);
 
-    showAlert("Plan created successfully!", "success");
-    setTimeout(() => window.location.href = "planCreated.html", 2000);
-
+    showAlert(
+      `Plan created successfully! Your join code: ${joinCode}`,
+      "success"
+    );
+    setTimeout(() => (window.location.href = "planCreated.html"), 2500);
   } catch (error) {
     console.error("Error creating plan:", error);
     showAlert("Failed to create plan. Please try again later.");
