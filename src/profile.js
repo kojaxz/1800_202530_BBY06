@@ -36,6 +36,9 @@ function populateUserInfo() {
       }
     } else {
       console.log("No user is signed in");
+      if (window.location.pathname.endsWith("profile.html")) {
+        window.location.href = "/login.html";
+      }
     }
   });
 }
