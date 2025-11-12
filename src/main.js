@@ -1,8 +1,6 @@
+import { auth } from "./firebaseConfig.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
-import {
-    onAuthReady
-} from "./authentication.js"
 import { db } from "./firebaseConfig.js";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
@@ -10,9 +8,12 @@ import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore
 function sayHello() {}
 // document.addEventListener('DOMContentLoaded', sayHello);
 
+const user = auth.currentUser;
+console.log(user);
+// const userID = user.uid;
 async function displayGroups() {
     let planBoxTemplate = document.getElementById("planTemplate");
-    const personalPlans = collection(db, "plans")
+    const personalPlans = collection(db, "user/userID/recentPlans")
 
     try {
         const querySnapshot = await getDocs(personalPlans);
