@@ -18,11 +18,11 @@ function populatePlan() {
 
       if (planSnap.exists()) {
         const data = planSnap.data();
-        document.getElementById("nameInput").value = data.name || "";
-        document.getElementById("descriptionInput").value = data.description || "";
-        document.getElementById("timeInput").value = data.time || "";
-        document.getElementById("dateInput").value = data.date || "";
-        document.getElementById("membersInput").value = data.members || "";
+        document.getElementById("titleInput").value = data.title;
+        document.getElementById("descriptionInput").value = data.description;
+        document.getElementById("timeInput").value = data.time;
+        document.getElementById("dateInput").value = data.date;
+        document.getElementById("membersInput").value = data.members;
       } else {
         console.log("No existing plan found.");
       }
@@ -50,7 +50,7 @@ document.getElementById("saveButton").addEventListener("click", async () => {
     return;
   }
 
-  const name = document.getElementById("nameInput").value;
+  const title = document.getElementById("titleInput").value;
   const description = document.getElementById("descriptionInput").value;
   const time = document.getElementById("timeInput").value;
   const date = document.getElementById("dateInput").value;
@@ -59,7 +59,7 @@ document.getElementById("saveButton").addEventListener("click", async () => {
   try {
     const planRef = doc(db, "plans", user.uid);
 
-    await setDoc(planRef, { name, description, time, date, members }, { merge: true });
+    await setDoc(planRef, { title, description, time, date, members }, { merge: true });
 
     console.log("✅ Plan saved successfully.");
     document.getElementById("planFields").disabled = true;
