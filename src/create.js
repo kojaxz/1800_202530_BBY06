@@ -78,7 +78,7 @@ form.addEventListener("submit", async (event) => {
     const newPlan = {
       title,
       description,
-      joinCode, // <-- added joinCode field
+      joinCode, //joinCode field
       createdBy: userRef,
       createdAt: serverTimestamp(),
       eventDate: Timestamp.fromDate(eventDate),
