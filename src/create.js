@@ -6,6 +6,7 @@ import {
   Timestamp,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const form = document.querySelector("#planForm");
@@ -94,6 +95,19 @@ form.addEventListener("submit", async (event) => {
       "success"
     );
     setTimeout(() => (window.location.href = "planCreated.html"), 2500);
+
+    const userDocSnap = await getDoc(userRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      const recentPlans = Array.isArray(userData.recentPlans)
+        ? userData.recentPlans
+        : [];
+      recentPlans.push(docRef.id);
+
+      // Update Firestore with the new recentPlans array
+      await updateDoc(userRef, { recentPlans });
+    }
   } catch (error) {
     console.error("Error creating plan:", error);
     showAlert("Failed to create plan. Please try again later.");
