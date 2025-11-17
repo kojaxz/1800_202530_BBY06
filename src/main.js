@@ -14,8 +14,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-// function sayHello() { }
-// // document.addEventListener('DOMContentLoaded', sayHello);
+
 
 
 // const user = auth.currentUser;
