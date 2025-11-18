@@ -50,6 +50,7 @@ import {
 //     } catch (error) {
 //         console.error("error getting documents: ", error);
 
+
 const plansHere = document.getElementById("plans-here");
 const chatBox = document.getElementById("chat-box");
 const chatTitle = document.getElementById("chatTitle");
@@ -138,6 +139,9 @@ function loadChat(planId, title, joinCode) {
 
   onSnapshot(messagesQuery, (snapshot) => {
     chatBox.innerHTML = "";
+
+    
+    
     snapshot.forEach((msgDoc) => {
       const msg = msgDoc.data();
       const msgDiv = document.createElement("div");
