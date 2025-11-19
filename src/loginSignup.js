@@ -9,11 +9,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "/src/firebaseConfig.js";
 
 // Redirect if already logged in
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.location.href = "main.html";
-  }
-});
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     window.location.href = "main.html";
+//   }
+// });
 
 function initAuthUI() {
   const alertEl = document.getElementById("authAlert");

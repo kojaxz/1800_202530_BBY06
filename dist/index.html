@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>BBY06 Comp1800 Project</title>
+  <meta name="comp1800 BBY06" content="My Comp1800 App" />
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Other libraries go here -->
+
+  <!-- Link to styles of your own -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+
+  <script type="module" crossorigin src="/assets/index-Bz0isTnu.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CyGVBy7r.css">
+</head>
+
+<body>
+  <!------------------------------>
+  <!-- Your HTML Layout go here -->
+  <!------------------------------>
+  <!-- Stuff for body goes here -->
+
+  <!---------------------------------------------->
+  <!-- Your own JavaScript functions go here    -->
+  <!---------------------------------------------->
+
+  <!-- Link to scripts of your own -->
+
+
+  <site-navbar></site-navbar>
+  <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold">Welcome to Event Planner!</h1>
+      <p class="col-md-8 fs-4">Let's start planning!</p>
+
+      <button onclick="window.location.href='login.html?mode=login'" 
+        class="btn btn-primary btn-lg" 
+        type="button">
+        Log In
+      </button>
+      <button onclick="window.location.href='login.html?mode=signup'" 
+        class="btn btn-primary btn-lg" 
+        type="button">
+        Sign Up
+      </button>
+
+
+      <!-- Add an onclick attribute to define click event handler -->
+      <!-- <button onclick="window.location.href='login.html'" class="btn btn-primary btn-lg" type="button">Login/Signup</button> -->
+    </div>
+  </div>
+  <div>
+    <h2 id="WelcomeBanner"> Welcome to Event Planner<br>
+      Plan. Vote. Decide. Enjoy.</h2>
+    <p id="WelcomeText">Event Planner is your all-in-one mobile assistant for organizing events effortlessly.
+      Create chat groups with friends, plan meals, coordinate schedules,
+      set up votes, and track reviews and ratings—all
+      in one place. Make decisions faster, easier, and more fun!</p>
+
+  </div>
+
+  <section id="how-it-works" class="container my-5">
+    <h2 class="section-title text-center">How It Works</h2>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Create a Group</h3>
+        <p>Invite friends or family and start a chat to coordinate your event easily.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Plan Your Event</h3>
+        <p>Choose the date, location, and food plans. Organizing is simple and fun!</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Vote on Options</h3>
+        <p>Set up votes for meals, activities, or venues to make group decisions fast.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Review & Rate</h3>
+        <p>Track reviews and ratings for past events to plan even better next time.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <nav class="navbar sticky-bottom bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Made by team BBY-06</a>
+      </div>
+    </nav>
+  </footer>
+</body>
+
+</html>
