@@ -18,6 +18,21 @@ function showAlert(message, type = "danger", showLoginBtn = false) {
   alertEl.className = `alert alert-${type} mt-3`;
   alertEl.classList.remove("d-none");
 
+/**      if (planSnap.exists()) {
+        const data = planSnap.data();
+        document.getElementById("titleInput").value = data.title;
+        document.getElementById("descriptionInput").value = data.description;
+        document.getElementById("timeInput").value = data.time;
+        document.getElementById("dateInput").value = data.date;
+        document.getElementById("membersInput").value = data.members;
+      } else {
+        console.log("No existing plan found.");
+      }
+    } catch (error) {
+      console.error("Error fetching plan:", error);
+    }
+  });*/
+
   if (showLoginBtn) {
     const btn = document.createElement("button");
     btn.className = "btn btn-primary btn-sm ms-3";
@@ -74,9 +89,16 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
+  /*const title = document.getElementById("titleInput").value;
+  const description = document.getElementById("descriptionInput").value;
+  const time = document.getElementById("timeInput").value;
+  const date = document.getElementById("dateInput").value;
+  const members = document.getElementById("membersInput").value;
+*/
   try {
     const userRef = doc(db, "users", user.uid);
 
+ //   await setDoc(planRef, { title, description, time, date, members }, { merge: true });
     // Generate a unique join code
     const joinCode = await generateUniqueJoinCode();
 
