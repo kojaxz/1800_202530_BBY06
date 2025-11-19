@@ -2,7 +2,57 @@ body {
   font-family: "Lexend Deca", sans-serif !important;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa; /* subtle light background */
+  background-color: #f8f9fa;
+  /* subtle light background */
+}
+
+#container {
+  display: flex;
+  height: 100vh;
+}
+
+#planBox {
+  width: 30vw;
+  border-right: 1px solid #d6d6d6;
+  overflow-y: auto;
+}
+
+#plans-here .Msg-Box {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+#plans-here .Msg-Box:hover {
+  background-color: #e0e0e0;
+}
+
+#messageBox {
+  flex-grow: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+#chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  padding: 0.5rem;
+  background-color: #fff;
+}
+
+#chat-form {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+#chat-form input {
+  flex-grow: 1;
+  margin-right: 0.5rem;
 }
 
 #planBox {
@@ -10,17 +60,21 @@ body {
   width: 30vw;
   height: 100vh;
   border-right: solid rgb(214, 214, 214);
+
   h1 {
     padding-top: 0.3em;
     margin: 0 0 0.5em 0.2em;
   }
+
   .Msg-Box {
     margin-right: 1em;
     border-radius: 20px;
     padding-left: 0.7em;
+
     p {
       color: rgb(126, 126, 126);
     }
+
     &:hover {
       background-color: rgb(214, 214, 214);
     }
@@ -104,7 +158,8 @@ body {
 
 #authAlert {
   position: fixed;
-  top: 70px; /* Adjust based on navbar height */
+  top: 70px;
+  /* Adjust based on navbar height */
   left: 50%;
   transform: translateX(-50%);
   z-index: 1050;

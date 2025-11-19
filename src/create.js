@@ -39,6 +39,10 @@ function generateJoinCode() {
   return code;
 }
 
+// async function getFood() {
+//   const cuisine = await getDoc(db, "cuisine types")
+// }
+
 // Ensure join code is unique
 async function generateUniqueJoinCode() {
   let unique = false;
