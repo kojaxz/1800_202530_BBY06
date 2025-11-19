@@ -17,6 +17,7 @@ import {
 // function sayHello() { }
 // // document.addEventListener('DOMContentLoaded', sayHello);
 
+
 // const user = auth.currentUser;
 // //const userID = user.uid;
 // async function displayGroups(user) {
@@ -141,14 +142,11 @@ onAuthReady(async (user) => {
 
 // Load chat for a plan
 function loadChat(planId, title, joinCode) {
-  // Check if joinCode exists
-  if (!joinCode) {
-    console.warn("Join code is not available for this plan.");
-  }
-
   chatTitle.innerHTML = `${title} <small class="text-muted">(Join code: ${joinCode})</small>`;
   chatBox.innerHTML = "";
   chatInput.value = "";
+
+  if (currentMessagesRef) currentMessagesRef = null;
 
   currentMessagesRef = collection(db, "plans", planId, "messages");
   const messagesQuery = query(currentMessagesRef, orderBy("time"));
@@ -168,25 +166,30 @@ function loadChat(planId, title, joinCode) {
   });
 }
 
+// auth.onAuthStateChanged(async (user) => {
+//     if (user) {
+//         await displayGroups(user);
+//     } else {
+//         console.log("User is not authenticated");
+//     }
+// });
 // Send message
+
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!chatInput.value.trim() || !currentMessagesRef) return;
 
-  // Fetching user info here again might not be necessary,
-  // as you can maintain the user context from onAuthReady().
   onAuthReady(async (user) => {
     if (!user) return;
 
     try {
-      // Add message to Firestore
       await addDoc(currentMessagesRef, {
         senderId: user.uid,
         senderName: user.displayName || "Anonymous",
         text: chatInput.value.trim(),
         time: serverTimestamp(),
       });
-      chatInput.value = ""; // Clear input field after sending
+      chatInput.value = "";
     } catch (err) {
       console.error("Error sending message:", err);
     }
