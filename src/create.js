@@ -6,6 +6,7 @@ import {
   Timestamp,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const form = document.querySelector("#planForm");
@@ -52,6 +53,10 @@ function generateJoinCode() {
   }
   return code;
 }
+
+// async function getFood() {
+//   const cuisine = await getDoc(db, "cuisine types")
+// }
 
 // Ensure join code is unique
 async function generateUniqueJoinCode() {
@@ -100,7 +105,7 @@ form.addEventListener("submit", async (event) => {
     const newPlan = {
       title,
       description,
-      joinCode, // <-- added joinCode field
+      joinCode, //joinCode field
       createdBy: userRef,
       createdAt: serverTimestamp(),
       eventDate: Timestamp.fromDate(eventDate),
@@ -116,6 +121,19 @@ form.addEventListener("submit", async (event) => {
       "success"
     );
     setTimeout(() => (window.location.href = "planCreated.html"), 2500);
+
+    const userDocSnap = await getDoc(userRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      const recentPlans = Array.isArray(userData.recentPlans)
+        ? userData.recentPlans
+        : [];
+      recentPlans.push(docRef.id);
+
+      // Update Firestore with the new recentPlans array
+      await updateDoc(userRef, { recentPlans });
+    }
   } catch (error) {
     console.error("Error creating plan:", error);
     showAlert("Failed to create plan. Please try again later.");

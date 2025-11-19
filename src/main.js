@@ -6,7 +6,7 @@ import { db } from "./firebaseConfig.js";
 import {
   collection,
   doc,
-  getDocs,
+  getDoc,
   query,
   orderBy,
   onSnapshot,
@@ -67,42 +67,57 @@ onAuthReady(async (user) => {
   if (!user) return;
 
   const userUID = user.uid;
-  const personalPlans = collection(db, "plans");
 
   try {
-    const querySnapshot = await getDocs(personalPlans);
-    let hasPlans = false;
+    const userDocRef = doc(db, `users/${userUID}`);
+    const userDocSnap = await getDoc(userDocRef);
 
-    querySnapshot.forEach((docSnap) => {
-      const plan = docSnap.data();
-      const membersArray = Array.isArray(plan.members) ? plan.members : [];
+    if (!userDocSnap.exists()) {
+      console.error("User document not found.");
+      return;
+    }
 
-      // Check membership
-      const isMember = membersArray.some(
-        (ref) => ref.id === userUID // assuming members are DocumentReferences
-      );
-      if (!isMember) return;
+    // Retrieve recentPlans from user document
+    const data = userDocSnap.data();
 
-      hasPlans = true;
+    if (!data.recentPlans || !Array.isArray(data.recentPlans)) {
+      console.warn("No recent plans found or it is not an array.");
+      return;
+    }
 
-      // Create plan box
-      const planDiv = document.createElement("div");
-      planDiv.className = "Msg-Box p-2 mb-2";
-      planDiv.innerHTML = `
-        <h5 class="plan-title">${plan.title}</h5>
-        <p class="plan-info text-muted">${plan.description}</p>
-      `;
+    const recentPlans = data.recentPlans;
 
-      // On click: load chat
-      planDiv.addEventListener("click", () => {
-        loadChat(docSnap.id, plan.title, plan.joinCode);
-      });
+    // Now load each recent plan
+    for (const planId of recentPlans) {
+      if (!planId) continue;
 
-      plansHere.appendChild(planDiv);
-    });
+      const planRef = doc(db, `plans/${planId.trim()}`);
+      const planSnap = await getDoc(planRef);
 
-    // Show hint if no plans
-    if (!hasPlans) {
+      if (planSnap.exists()) {
+        const plan = planSnap.data();
+
+        // Create plan box
+        const planDiv = document.createElement("div");
+        planDiv.className = "Msg-Box p-2 mb-2";
+        planDiv.innerHTML = `
+          <h5 class="plan-title">${plan.title}</h5>
+          <p class="plan-info text-muted">${plan.description}</p>
+        `;
+
+        // On click: load chat
+        planDiv.addEventListener("click", () => {
+          loadChat(planId, plan.title, plan.joinCode);
+        });
+
+        plansHere.appendChild(planDiv);
+      } else {
+        console.log(`No plan found for ID: ${planId}`);
+      }
+    }
+
+    // If no plans were loaded
+    if (plansHere.innerHTML === "") {
       const noPlanDiv = document.createElement("div");
       noPlanDiv.className = "card text-center p-3 my-3";
       noPlanDiv.innerHTML = `
