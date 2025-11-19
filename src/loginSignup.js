@@ -109,6 +109,7 @@ function initAuthUI() {
   // --- Signup ---
   signupForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("Signup form submitted");
     hideError();
 
     const name = document.querySelector("#signupName")?.value?.trim() ?? "";
@@ -132,7 +133,7 @@ function initAuthUI() {
 
     setSubmitDisabled(signupForm, true);
     try {
-      await signupUser(name, email, password);
+      const user = await signupUser(name, email, password);
       location.href = redirectUrl;
     } catch (err) {
       showError(authErrorMessage(err));
