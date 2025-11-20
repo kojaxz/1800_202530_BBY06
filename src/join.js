@@ -83,6 +83,8 @@ joinForm.addEventListener("submit", async (e) => {
     const planData = planDoc.data();
     const planRef = planDoc.ref;
     const userRef = doc(db, "users", user.uid);
+    const userDoc = doc (db, `users/${user.uid}`);
+    const planID = planDoc.id;
 
     const alreadyMember = planData.members?.some(
       (ref) => ref.id === userRef.id
@@ -95,6 +97,11 @@ joinForm.addEventListener("submit", async (e) => {
     await updateDoc(planRef, {
       members: arrayUnion(userRef),
     });
+
+    await updateDoc(userDoc, {
+      recentPlans: arrayUnion(planID)
+    })
+
 
     showAlert("Successfully joined the plan!", "success");
     setTimeout(() => (window.location.href = "main.html"), 2000);
