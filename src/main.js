@@ -17,7 +17,6 @@ import {
 // function sayHello() { }
 // // document.addEventListener('DOMContentLoaded', sayHello);
 
-
 // const user = auth.currentUser;
 // //const userID = user.uid;
 // async function displayGroups(user) {
@@ -49,7 +48,6 @@ import {
 
 //     } catch (error) {
 //         console.error("error getting documents: ", error);
-
 
 const plansHere = document.getElementById("plans-here");
 const chatBox = document.getElementById("chat-box");
@@ -155,8 +153,6 @@ function loadChat(planId, title, joinCode) {
   onSnapshot(messagesQuery, (snapshot) => {
     chatBox.innerHTML = "";
 
-    
-    
     snapshot.forEach((msgDoc) => {
       const msg = msgDoc.data();
       const msgDiv = document.createElement("div");
@@ -177,8 +173,8 @@ function loadChat(planId, title, joinCode) {
 //         console.log("User is not authenticated");
 //     }
 // });
-// Send message
 
+// Send message
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!chatInput.value.trim() || !currentMessagesRef) return;
