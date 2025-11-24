@@ -22,11 +22,10 @@ class SiteNavbar extends HTMLElement {
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto">
-              <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
-              <li class="nav-item protected-link"><a class="nav-link" href="profile.html">Profile</a></li>
-              <li class="nav-item protected-link"><a class="nav-link" href="main.html">Chats</a></li>
+              <li class="nav-item protected-link"><a class="nav-link" href="main.html">Plans</a></li>
               <li class="nav-item protected-link"><a class="nav-link" href="create.html">Create</a></li>
               <li class="nav-item protected-link"><a class="nav-link" href="join.html">Join</a></li>
+              <li class="nav-item protected-link"><a class="nav-link" href="profile.html">Profile</a></li>
             </ul>
 
             <div class="d-flex align-items-center gap-2 ms-lg-2">
