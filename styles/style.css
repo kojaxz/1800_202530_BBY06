@@ -37,7 +37,8 @@ body {
 }
 
 #chat-box {
-  flex-grow: 1;
+  /* flex-grow: 0.92; */
+  height: 82%;
   overflow-y: auto;
   border: 1px solid #ced4da;
   border-radius: 10px;

@@ -2,6 +2,8 @@ import { db, auth } from "./firebaseConfig.js";
 import {
   collection,
   addDoc,
+  getDocs,
+  setDoc,
   serverTimestamp,
   Timestamp,
   doc,
@@ -54,10 +56,6 @@ function generateJoinCode() {
   return code;
 }
 
-// async function getFood() {
-//   const cuisine = await getDoc(db, "cuisine types")
-// }
-
 // Ensure join code is unique
 async function generateUniqueJoinCode() {
   let unique = false;
@@ -101,7 +99,6 @@ form.addEventListener("submit", async (event) => {
  //   await setDoc(planRef, { title, description, time, date, members }, { merge: true });
     // Generate a unique join code
     const joinCode = await generateUniqueJoinCode();
-
     const newPlan = {
       title,
       description,
@@ -115,6 +112,34 @@ form.addEventListener("submit", async (event) => {
 
     const docRef = await addDoc(collection(db, "plans"), newPlan);
     console.log("Plan created with ID:", docRef.id, "Join Code:", joinCode);
+
+    const foodList = collection(db, 'cuisine types');
+    const food = await getDocs(foodList);
+    const cuisines = food.docs.map(doc => doc.id);
+    console.log(cuisines);
+
+    function getRandom() {
+      const result = [];
+
+      for (let i = 0; i < 3;) {
+        const randomFood = cuisines[Math.floor(Math.random() * cuisines.length)];
+        if (!result.includes(randomFood)) {
+          result.push(randomFood);
+          i++;
+        }
+      }
+      console.log(result);
+      return result;
+    }
+
+    const options = getRandom();
+
+    for (const cuisine of options) {
+      const optionRef = doc(docRef, "options", cuisine);
+      await setDoc(optionRef, {
+        votes: 0
+      })
+    }
 
     showAlert(
       `Plan created successfully! Your join code: ${joinCode}`,
