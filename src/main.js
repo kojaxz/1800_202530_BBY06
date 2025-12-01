@@ -142,6 +142,14 @@ onAuthReady(async (user) => {
 // Load chat for a plan
 function loadChat(planId, title, joinCode) {
   chatTitle.innerHTML = `${title} <small class="text-muted">(Join code: ${joinCode})</small>`;
+  chatTitle.innerHTML = `
+    ${title} <small class="text-muted">(Join code: ${joinCode})</small>
+    <div class="float-end">
+        <button class="btn btn-outline-primary btn-sm me-1">Option 1</button>
+        <button class="btn btn-outline-primary btn-sm me-1">Option 2</button>
+        <button class="btn btn-outline-primary btn-sm me-1">Option 3</button>
+    </div>
+  `;
   chatBox.innerHTML = "";
   chatInput.value = "";
 
@@ -157,8 +165,7 @@ function loadChat(planId, title, joinCode) {
       const msg = msgDoc.data();
       const msgDiv = document.createElement("div");
       msgDiv.innerHTML = `<strong>${msg.senderName}:</strong> ${msg.text} 
-        <small class="text-muted">${
-          msg.time?.toDate().toLocaleTimeString() || ""
+        <small class="text-muted">${msg.time?.toDate().toLocaleTimeString() || ""
         }</small>`;
       chatBox.appendChild(msgDiv);
     });
