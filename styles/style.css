@@ -37,7 +37,8 @@ body {
 }
 
 #chat-box {
-  flex-grow: 1;
+  /* flex-grow: 0.92; */
+  height: 82%;
   overflow-y: auto;
   border: 1px solid #ced4da;
   border-radius: 10px;
@@ -180,6 +181,7 @@ body {
 #authAlert.show {
   opacity: 1;
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 
 
@@ -198,3 +200,6 @@ body {
 =======
 }
 >>>>>>> d575af14293ad763685e060935afdd29b3a9b783
+=======
+}
+>>>>>>> b9173dc932a8f55d8d5e7daa6ae68a8d088d1910

@@ -2,6 +2,8 @@ import { db, auth } from "./firebaseConfig.js";
 import {
   collection,
   addDoc,
+  getDocs,
+  setDoc,
   serverTimestamp,
   Timestamp,
   doc,
@@ -18,7 +20,7 @@ function showAlert(message, type = "danger", showLoginBtn = false) {
   alertEl.className = `alert alert-${type} mt-3`;
   alertEl.classList.remove("d-none");
 
-/**      if (planSnap.exists()) {
+  /**      if (planSnap.exists()) {
         const data = planSnap.data();
         document.getElementById("titleInput").value = data.title;
         document.getElementById("descriptionInput").value = data.description;
@@ -53,10 +55,6 @@ function generateJoinCode() {
   }
   return code;
 }
-
-// async function getFood() {
-//   const cuisine = await getDoc(db, "cuisine types")
-// }
 
 // Ensure join code is unique
 async function generateUniqueJoinCode() {
@@ -98,10 +96,9 @@ form.addEventListener("submit", async (event) => {
   try {
     const userRef = doc(db, "users", user.uid);
 
- //   await setDoc(planRef, { title, description, time, date, members }, { merge: true });
+    //   await setDoc(planRef, { title, description, time, date, members }, { merge: true });
     // Generate a unique join code
     const joinCode = await generateUniqueJoinCode();
-
     const newPlan = {
       title,
       description,
@@ -116,11 +113,39 @@ form.addEventListener("submit", async (event) => {
     const docRef = await addDoc(collection(db, "plans"), newPlan);
     console.log("Plan created with ID:", docRef.id, "Join Code:", joinCode);
 
+    const foodList = collection(db, "cuisine types");
+    const food = await getDocs(foodList);
+    const cuisines = food.docs.map((doc) => doc.id);
+    console.log(cuisines);
+
+    function getRandom() {
+      const result = [];
+
+      for (let i = 0; i < 3; ) {
+        const randomFood =
+          cuisines[Math.floor(Math.random() * cuisines.length)];
+        if (!result.includes(randomFood)) {
+          result.push(randomFood);
+          i++;
+        }
+      }
+      console.log(result);
+      return result;
+    }
+
+    const options = getRandom();
+
+    for (const cuisine of options) {
+      const optionRef = doc(docRef, "options", cuisine);
+      await setDoc(optionRef, {
+        votes: 0,
+      });
+    }
+
     showAlert(
       `Plan created successfully! Your join code: ${joinCode}`,
       "success"
     );
-    setTimeout(() => (window.location.href = "planCreated.html"), 2500);
 
     const userDocSnap = await getDoc(userRef);
 
@@ -138,4 +163,6 @@ form.addEventListener("submit", async (event) => {
     console.error("Error creating plan:", error);
     showAlert("Failed to create plan. Please try again later.");
   }
+
+  setTimeout(() => (window.location.href = ""), 2500);
 });

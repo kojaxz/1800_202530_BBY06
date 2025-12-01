@@ -66,7 +66,6 @@ export async function signupUser(name, email, password) {
       name: name,
       email: email,
       createdDate: serverTimestamp(),
-      friends: [], // empty array initially
       recentPlans: [], // empty array initially
       preferences: {
         darkMode: false, // default preference
