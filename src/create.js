@@ -164,5 +164,5 @@ form.addEventListener("submit", async (event) => {
     showAlert("Failed to create plan. Please try again later.");
   }
 
-  setTimeout(() => (window.location.href = ""), 2500);
+  setTimeout(() => (window.location.href = "main.html"), 2500);
 });
