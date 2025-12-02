@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
-  /* subtle light background */
 }
 
 #container {
@@ -37,7 +36,6 @@ body {
 }
 
 #chat-box {
-  /* flex-grow: 0.92; */
   height: 82%;
   overflow-y: auto;
   border: 1px solid #ced4da;
@@ -165,7 +163,6 @@ body {
 #authAlert {
   position: fixed;
   top: 70px;
-  /* Adjust based on navbar height */
   left: 50%;
   transform: translateX(-50%);
   z-index: 1050;
