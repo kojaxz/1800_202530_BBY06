@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>My BCIT Project</title>
-    <meta name="comp1800 template" content="My 1800 App" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./styles/style.css" />
-    <script type="module" src="/src/components/site-navbar.js"></script>
-    <script type="module" src="/src/components/site-footer.js"></script>
-  </head>
 
-  <body>
-    <site-navbar></site-navbar>
-    <div id="container">
-      <div id="planBox">
-        <h1>Plans</h1>
-        <div id="plans-here"></div>
-      </div>
-      <div id="messageBox">
-        <h2 id="chatTitle">Select a plan to view messages</h2>
-        <div id="chat-box"></div>
-        <form id="chat-form">
-          <input type="text" placeholder="Type a message..." required />
-          <button type="submit" class="btn btn-primary">Send</button>
-        </form>
-      </div>
+<head>
+  <title>My BCIT Project</title>
+  <meta name="comp1800 template" content="My 1800 App" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styles/style.css" />
+  <script type="module" src="/src/components/site-navbar.js"></script>
+  <script type="module" src="/src/components/site-footer.js"></script>
+</head>
+
+<body>
+  <site-navbar></site-navbar>
+  <div id="container">
+    <div id="planBox">
+      <h1>Plans</h1>
+      <div id="plans-here"></div>
     </div>
-    <script type="module" src="./src/main.js"></script>
-  </body>
+    <div id="messageBox">
+      <div class="vote">
+        <div class="title">
+          <h2 id="chatTitle">Select a plan to view messages</h2>
+        </div>
+        <div class="buttons">
+          <button class="btn btn-outline-primary btn-sm me-1" id="option1">Option 1</button>
+          <button class="btn btn-outline-primary btn-sm me-1" id="option2">Option 2</button>
+          <button class="btn btn-outline-primary btn-sm me-1" id="option3">Option 3</button>
+        </div>
+      </div>
+      <div id="chat-box"></div>
+      <form id="chat-form">
+        <input type="text" placeholder="Type a message..." required />
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+
 </html>

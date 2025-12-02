@@ -8,10 +8,12 @@ import {
   doc,
   getDoc,
   query,
+  updateDoc,
   orderBy,
   onSnapshot,
   addDoc,
   serverTimestamp,
+  increment,
 } from "firebase/firestore";
 
 // function sayHello() { }
@@ -142,14 +144,37 @@ onAuthReady(async (user) => {
 // Load chat for a plan
 function loadChat(planId, title, joinCode) {
   chatTitle.innerHTML = `${title} <small class="text-muted">(Join code: ${joinCode})</small>`;
+
+  const optionsRef = collection(db, "plans", planId, "options")
+  const optionsQuery = query(optionsRef)
+
+  onSnapshot(optionsQuery, (snapshot) =>{
+    const options = snapshot.docs.map((doc) => doc.id);
+
+    if (options.length > 0) {
+      document.getElementById("option1").textContent = options[0];
+      document.getElementById("option2").textContent = options[1];
+      document.getElementById("option3").textContent = options[2];
+
+      const option1Button = document.getElementById("option1");
+      const option2Button = document.getElementById("option2");
+      const option3Button = document.getElementById("option3");
+
+      option1Button.removeEventListener("click", vote);
+      option2Button.removeEventListener("click", vote);
+      option3Button.removeEventListener("click", vote);
+
+      document.getElementById("option1").onclick = () => vote(planId, options[0]);
+
+      document.getElementById("option2").onclick = () => vote(planId, options[1]);
+
+      document.getElementById("option3").onclick = () => vote(planId, options[2]);
+
+    }
+  });
+
   chatTitle.innerHTML = `
-    ${title} <small class="text-muted">(Join code: ${joinCode})</small>
-    <div class="float-end">
-        <button class="btn btn-outline-primary btn-sm me-1">Option 1</button>
-        <button class="btn btn-outline-primary btn-sm me-1">Option 2</button>
-        <button class="btn btn-outline-primary btn-sm me-1">Option 3</button>
-    </div>
-  `;
+    ${title} <small class="text-muted">(Join code: ${joinCode})</small`;
   chatBox.innerHTML = "";
   chatInput.value = "";
 
@@ -170,6 +195,13 @@ function loadChat(planId, title, joinCode) {
       chatBox.appendChild(msgDiv);
     });
     chatBox.scrollTop = chatBox.scrollHeight;
+  });
+}
+
+function vote(planId, option){
+  const optionRef = doc(db, "plans", planId, "options", option);
+  updateDoc(optionRef, {
+    votes: increment(1),
   });
 }
 
