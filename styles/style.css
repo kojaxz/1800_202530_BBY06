@@ -118,7 +118,7 @@ body {
   gap: 2rem;
 }
 
-.vote{
+.vote {
   display: flex;
   justify-content: space-between;
 }
@@ -187,7 +187,6 @@ body {
   opacity: 1;
 }
 
-
 #voteContainer {
   text-align: center;
   margin-top: 40px;
@@ -199,4 +198,60 @@ body {
   font-size: 18px;
   cursor: pointer;
   border-radius: 8px;
+}
+
+.vote-button {
+  position: relative;
+  width: 100%;
+  padding: 14px 18px;
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+  background: #ff6b00; /* fallback */
+}
+
+.vote-button.voted {
+  background: #7d7d7d !important;
+}
+
+.vote-button.disabled-option {
+  background: #c8c8c8 !important;
+  cursor: default;
+}
+
+.vote-button::after {
+  content: "✔";
+  font-size: 18px;
+  font-weight: bold;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.vote-button.voted::after {
+  display: block;
+}
+
+.vote .buttons .btn {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.vote .buttons .btn:hover {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+
+.expiring-soon {
+  border: 2px solid red;
+  background-color: rgba(255, 0, 0, 0.1);
 }

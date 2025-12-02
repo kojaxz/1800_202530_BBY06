@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import { onAuthReady } from "./authentication.js";
 import { db } from "./firebaseConfig.js";
+import { arrayUnion } from "firebase/firestore";
 import {
   collection,
   doc,
@@ -72,72 +73,56 @@ onAuthReady(async (user) => {
     const userDocRef = doc(db, `users/${userUID}`);
     const userDocSnap = await getDoc(userDocRef);
 
-    if (!userDocSnap.exists()) {
-      console.error("User document not found.");
-      return;
-    }
+    if (!userDocSnap.exists()) return;
 
-    // Retrieve recentPlans from user document
     const data = userDocSnap.data();
+    const recentPlans = data.recentPlans || [];
 
-    if (!data.recentPlans || !Array.isArray(data.recentPlans)) {
-      console.warn("No recent plans found or it is not an array.");
-      return;
-    }
+    plansHere.innerHTML = ""; // Clear container
 
-    const recentPlans = data.recentPlans;
-
-    // Now load each recent plan
     for (const planId of recentPlans) {
       if (!planId) continue;
 
       const planRef = doc(db, `plans/${planId.trim()}`);
       const planSnap = await getDoc(planRef);
 
-      if (planSnap.exists()) {
-        const plan = planSnap.data();
+      if (!planSnap.exists()) continue;
 
-        // Create plan box
-        const planDiv = document.createElement("div");
-        planDiv.className = "Msg-Box p-2 mb-2";
-        planDiv.innerHTML = `
-          <h5 class="plan-title">${plan.title}</h5>
-          <p class="plan-info text-muted">${plan.description}</p>
-        `;
+      const plan = planSnap.data();
+      const now = new Date();
+      const dueDate = plan.dueDate?.toDate();
 
-        // On click: load chat
-        planDiv.addEventListener("click", () => {
-          loadChat(planId, plan.title, plan.joinCode);
+      if (dueDate && dueDate < now) {
+        // Delete expired plan
+        await updateDoc(userDocRef, {
+          recentPlans: arrayRemove(planId.trim()),
         });
-
-        plansHere.appendChild(planDiv);
-      } else {
-        console.log(`No plan found for ID: ${planId}`);
+        await deleteDoc(planRef);
+        continue; // skip rendering
       }
-    }
 
-    // If no plans were loaded
-    if (plansHere.innerHTML === "") {
-      const noPlanDiv = document.createElement("div");
-      noPlanDiv.className = "card text-center p-3 my-3";
-      noPlanDiv.innerHTML = `
-        <p class="mb-3 text-muted">You don’t have any plans yet.</p>
-        <div class="d-flex justify-content-center gap-2">
-          <button class="btn btn-outline-primary" id="createPlanBtn">Create a Plan</button>
-          <button class="btn btn-outline-secondary" id="joinPlanBtn">Join a Plan</button>
-        </div>
+      // Render plan
+      const planDiv = document.createElement("div");
+      planDiv.className = "Msg-Box p-2 mb-2";
+      planDiv.innerHTML = `
+        <h5 class="plan-title">${plan.title}</h5>
+        <p class="plan-info text-muted">${plan.description}</p>
       `;
-      plansHere.appendChild(noPlanDiv);
 
-      document.getElementById("createPlanBtn").addEventListener("click", () => {
-        window.location.href = "create.html";
+      // If expiring in ≤ 1 day, change background and border directly
+      if (dueDate && (dueDate - now) / (1000 * 60 * 60 * 24) <= 1) {
+        planDiv.style.border = "2px solid red";
+        planDiv.style.backgroundColor = "rgba(255, 0, 0, 0.1)";
+      }
+
+      planDiv.addEventListener("click", () => {
+        loadChat(planId, plan.title, plan.joinCode);
       });
-      document.getElementById("joinPlanBtn").addEventListener("click", () => {
-        window.location.href = "join.html";
-      });
+
+      plansHere.appendChild(planDiv);
     }
   } catch (error) {
-    console.error("Error getting documents:", error);
+    console.error("Error loading plans:", error);
   }
 });
 
@@ -145,63 +130,149 @@ onAuthReady(async (user) => {
 function loadChat(planId, title, joinCode) {
   chatTitle.innerHTML = `${title} <small class="text-muted">(Join code: ${joinCode})</small>`;
 
-  const optionsRef = collection(db, "plans", planId, "options")
-  const optionsQuery = query(optionsRef)
+  const optionsRef = collection(db, "plans", planId, "options");
+  const optionsQuery = query(optionsRef);
 
-  onSnapshot(optionsQuery, (snapshot) =>{
+  onSnapshot(optionsQuery, (snapshot) => {
     const options = snapshot.docs.map((doc) => doc.id);
 
+    // Assign labels to buttons
     if (options.length > 0) {
-      document.getElementById("option1").textContent = options[0];
-      document.getElementById("option2").textContent = options[1];
-      document.getElementById("option3").textContent = options[2];
+      const option1Btn = document.getElementById("option1");
+      const option2Btn = document.getElementById("option2");
+      const option3Btn = document.getElementById("option3");
 
-      const option1Button = document.getElementById("option1");
-      const option2Button = document.getElementById("option2");
-      const option3Button = document.getElementById("option3");
+      option1Btn.textContent = options[0];
+      option2Btn.textContent = options[1];
+      option3Btn.textContent = options[2];
 
-      option1Button.removeEventListener("click", vote);
-      option2Button.removeEventListener("click", vote);
-      option3Button.removeEventListener("click", vote);
+      option1Btn.onclick = () => vote(planId, options[0]);
+      option2Btn.onclick = () => vote(planId, options[1]);
+      option3Btn.onclick = () => vote(planId, options[2]);
 
-      document.getElementById("option1").onclick = () => vote(planId, options[0]);
-
-      document.getElementById("option2").onclick = () => vote(planId, options[1]);
-
-      document.getElementById("option3").onclick = () => vote(planId, options[2]);
-
+      // Reset UI
+      [option1Btn, option2Btn, option3Btn].forEach((btn) => {
+        btn.disabled = false;
+        btn.classList.remove("voted");
+        btn.style.background = "";
+      });
     }
+
+    // Calculate total votes
+    let totalVotes = 0;
+    const optionVotes = {};
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      optionVotes[doc.id] = data.votes || 0;
+      totalVotes += data.votes || 0;
+    });
+
+    // Update buttons with gradient and percentages
+    function getPercent(votes) {
+      return totalVotes === 0 ? 0 : Math.round((votes / totalVotes) * 100);
+    }
+
+    const option1Btn = document.getElementById("option1");
+    const option2Btn = document.getElementById("option2");
+    const option3Btn = document.getElementById("option3");
+
+    option1Btn.textContent = `${options[0]} - ${getPercent(
+      optionVotes[options[0]]
+    )}%`;
+    option2Btn.textContent = `${options[1]} - ${getPercent(
+      optionVotes[options[1]]
+    )}%`;
+    option3Btn.textContent = `${options[2]} - ${getPercent(
+      optionVotes[options[2]]
+    )}%`;
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const btn =
+        doc.id === options[0]
+          ? option1Btn
+          : doc.id === options[1]
+          ? option2Btn
+          : doc.id === options[2]
+          ? option3Btn
+          : null;
+
+      if (btn) {
+        const percent = getPercent(data.votes);
+        btn.style.background = `linear-gradient(90deg, rgba(13,110,253,0.9) ${percent}%, rgba(204,229,255,0.5) ${percent}%)`;
+      }
+    });
+
+    // Check if the user has voted (only one vote per plan)
+    const user = auth.currentUser;
+    let hasVoted = false;
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.votedUsers && data.votedUsers.includes(user.uid)) {
+        hasVoted = true;
+        // Show checkmark for voted option
+        const votedBtn =
+          doc.id === options[0]
+            ? option1Btn
+            : doc.id === options[1]
+            ? option2Btn
+            : doc.id === options[2]
+            ? option3Btn
+            : null;
+
+        if (votedBtn) votedBtn.classList.add("voted");
+      }
+    });
+
+    // Disable buttons if already voted
+    [option1Btn, option2Btn, option3Btn].forEach((btn) => {
+      btn.disabled = hasVoted;
+    });
   });
 
-  chatTitle.innerHTML = `
-    ${title} <small class="text-muted">(Join code: ${joinCode})</small`;
+  // Load chat messages
   chatBox.innerHTML = "";
   chatInput.value = "";
-
-  if (currentMessagesRef) currentMessagesRef = null;
-
   currentMessagesRef = collection(db, "plans", planId, "messages");
   const messagesQuery = query(currentMessagesRef, orderBy("time"));
 
   onSnapshot(messagesQuery, (snapshot) => {
     chatBox.innerHTML = "";
-
     snapshot.forEach((msgDoc) => {
       const msg = msgDoc.data();
       const msgDiv = document.createElement("div");
-      msgDiv.innerHTML = `<strong>${msg.senderName}:</strong> ${msg.text} 
-        <small class="text-muted">${msg.time?.toDate().toLocaleTimeString() || ""
-        }</small>`;
+      msgDiv.innerHTML = `
+        <strong>${msg.senderName}:</strong> ${msg.text}
+        <small class="text-muted">${
+          msg.time?.toDate().toLocaleTimeString() || ""
+        }</small>
+      `;
       chatBox.appendChild(msgDiv);
     });
     chatBox.scrollTop = chatBox.scrollHeight;
   });
 }
 
-function vote(planId, option){
+async function vote(planId, option) {
+  const user = auth.currentUser;
+  if (!user) return;
+
   const optionRef = doc(db, "plans", planId, "options", option);
-  updateDoc(optionRef, {
+  const optionSnap = await getDoc(optionRef);
+
+  if (!optionSnap.exists()) return;
+
+  const data = optionSnap.data();
+
+  // Prevent double voting
+  if (data.votedUsers && data.votedUsers.includes(user.uid)) {
+    alert("You already voted.");
+    return;
+  }
+
+  await updateDoc(optionRef, {
     votes: increment(1),
+    votedUsers: arrayUnion(user.uid),
   });
 }
 
