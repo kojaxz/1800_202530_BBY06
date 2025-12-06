@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My BCIT Project</title>
+    <meta name="comp1800 template" content="My 1800 App">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Link to styles of your own -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Web Components for shared navbar and footer layout -->
+  <script type="module" crossorigin src="/assets/create-CIjdkMdt.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/style-DuEhwKkm.js">
+  <link rel="modulepreload" crossorigin href="/assets/site-footer-DnEN_3Qf.js">
+  <link rel="modulepreload" crossorigin href="/assets/bootstrap.esm-Cguh7NES.js">
+  <link rel="modulepreload" crossorigin href="/assets/app-CcDgneyr.js">
+  <link rel="stylesheet" crossorigin href="/assets/style-CAWf_WV0.css">
+  <link rel="stylesheet" crossorigin href="/assets/bootstrap-C11chwFa.css">
+</head>
+
+<body>
+    <!------------------------------>
+    <!-- Your HTML Layout go here -->
+    <!------------------------------>
+
+    <!-- our own navbar goes here -->
+    <site-navbar></site-navbar>
+
+    <!-- Main content goes here -->
+
+    <div class="container py-5" >
+        <br> <h1>Create a Plan</h1> <br>
+        <!-- Alert container -->
+        <div id="planAlert" class="alert d-none" role="alert"></div>
+
+        <!-- Form -->
+        <form id="planForm" class="card p-4 shadow-sm needs-validation" novalidate>
+            <div class="mb-3">
+            <label for="nameInput" class="form-label">Plan Name <span class="text-danger">*</span></label>
+            <input type="text" id="nameInput" class="form-control" placeholder="Enter plan name" required />
+            <div class="invalid-feedback">Please enter a plan name.</div>
+            </div>
+            <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Description <span class="text-danger">*</span></label>
+            <textarea id="descriptionInput" class="form-control" rows="3" placeholder="Enter plan description" required></textarea>
+            <div class="invalid-feedback">Please provide a short description.</div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="dateInput" class="form-label">Date <span class="text-danger">*</span></label>
+                <input type="date" id="dateInput" class="form-control" required />
+                <div class="invalid-feedback">Please choose a date.</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="timeInput" class="form-label">Time <span class="text-danger">*</span></label>
+                <input type="time" id="timeInput" class="form-control" required />
+                <div class="invalid-feedback">Please choose a time.</div>
+            </div>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+            <button id="saveButton" type="submit" class="btn btn-info">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- our own footer goes here -->
+    <site-footer></site-footer>
+
+    <!---------------------------------------------->
+    <!-- Your own JavaScript scripts go here      -->
+    <!---------------------------------------------->
+
+    <script>
+        const form = document.querySelector("#planForm");
+
+        form.addEventListener("submit", (event) => {
+            if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            } else {
+            event.preventDefault();
+            // ✅ Firestore save logic goes here
+            console.log("Form valid! Ready to save.");
+            }
+
+            form.classList.add("was-validated");
+        });
+    </script>
+</body>
+
+</html>

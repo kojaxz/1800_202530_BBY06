@@ -210,7 +210,8 @@ body {
   cursor: pointer;
   transition: transform 0.12s ease, box-shadow 0.2s ease;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
-  background: #ff6b00; /* fallback */
+  background: #ff6b00;
+  /* fallback */
 }
 
 .vote-button.voted {
@@ -251,4 +252,23 @@ body {
 .expiring-soon {
   border: 2px solid red;
   background-color: rgba(255, 0, 0, 0.1);
+}
+
+.back {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  #messageBox {
+    display: none;
+    width: 100vw;
+  }
+
+  .back {
+    display: inline-block;
+  }
+
+  #planBox {
+    width: 100vw;
+  }
 }

@@ -114,10 +114,23 @@ onAuthReady(async (user) => {
         planDiv.style.border = "2px solid red";
         planDiv.style.backgroundColor = "rgba(255, 0, 0, 0.1)";
       }
-
-      planDiv.addEventListener("click", () => {
-        loadChat(planId, plan.title, plan.joinCode);
-      });
+      if (window.innerWidth < 800) {
+        planDiv.addEventListener("click", () => {
+          document.getElementById('messageBox').style.display = 'flex';
+          document.getElementById('planBox').style.display = 'none';
+          loadChat(planId, plan.title, plan.joinCode);
+        });
+        document.querySelector('.back').addEventListener('click', function (event) {
+          if (event.target.tagName === 'BUTTON') {
+            document.getElementById('messageBox').style.display = 'none';
+          document.getElementById('planBox').style.display = 'block';
+          }
+        });
+      } else {
+        planDiv.addEventListener("click", () => {
+          loadChat(planId, plan.title, plan.joinCode);
+        });
+      }
 
       plansHere.appendChild(planDiv);
     }
@@ -192,10 +205,10 @@ function loadChat(planId, title, joinCode) {
         doc.id === options[0]
           ? option1Btn
           : doc.id === options[1]
-          ? option2Btn
-          : doc.id === options[2]
-          ? option3Btn
-          : null;
+            ? option2Btn
+            : doc.id === options[2]
+              ? option3Btn
+              : null;
 
       if (btn) {
         const percent = getPercent(data.votes);
@@ -215,10 +228,10 @@ function loadChat(planId, title, joinCode) {
           doc.id === options[0]
             ? option1Btn
             : doc.id === options[1]
-            ? option2Btn
-            : doc.id === options[2]
-            ? option3Btn
-            : null;
+              ? option2Btn
+              : doc.id === options[2]
+                ? option3Btn
+                : null;
 
         if (votedBtn) votedBtn.classList.add("voted");
       }
@@ -243,8 +256,7 @@ function loadChat(planId, title, joinCode) {
       const msgDiv = document.createElement("div");
       msgDiv.innerHTML = `
         <strong>${msg.senderName}:</strong> ${msg.text}
-        <small class="text-muted">${
-          msg.time?.toDate().toLocaleTimeString() || ""
+        <small class="text-muted">${msg.time?.toDate().toLocaleTimeString() || ""
         }</small>
       `;
       chatBox.appendChild(msgDiv);
