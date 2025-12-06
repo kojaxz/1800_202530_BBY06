@@ -1,8 +1,8 @@
-# Elmo Hikes
+# Event Planner
 
 
 ## Overview
-Elmo Hikes is a client-side JavaScript web application that helps users discover and explore hiking trails. The app displays a curated list of hike trails, each with details such as name, location, difficulty, and an image. Users can browse the list and mark their favorite trails for easy access later.
+Event Planner is a client-side JavaScript web application that helps users plan outings to resturaunts with friends.  users can create groups, invite friends, vote on the type of cuisine they would like to eat, and chat together.
 
 Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile project management, and demonstrates integration with Firebase backend services for storing user favorites.
 
@@ -11,10 +11,10 @@ Developed for the COMP 1800 course, this project applies User-Centred Design pra
 
 ## Features
 
-- Browse a list of curated hiking trails with images and details
-- Mark and unmark trails as favorites
-- View a personalized list of favorite hikes
-- Responsive design for desktop and mobile
+- Create a plan with a date and time
+- invite friends to your plan, or join theirs with a join code
+- Vote on randomly suggested cuisine types
+- Chat with your friends and decide where to go
 
 ---
 
@@ -32,10 +32,11 @@ Example:
 
 ## Usage
 
-1. Open your browser and visit `http://localhost:3000`.
-2. Browse the list of hiking trails displayed on the main page.
-3. Click the heart icon (or similar) to mark a trail as a favorite.
-4. View your favorite hikes in the favorites section.
+1. Open your browser and visit `https://comp1800-bby06.web.app/`.
+2. Click the create button to start a group.
+3. Invite other people by sending them the join code.
+4. Vote by clicking an option in the top right of the group's page.
+5. Chat by typing in the message bar.
 
 ---
 
@@ -43,7 +44,7 @@ Example:
 ## Project Structure
 
 ```
-elmo-hikes/
+Event-Planner/
 ├── src/
 │   ├── main.js
 ├── styles/
@@ -70,26 +71,17 @@ elmo-hikes/
 ---
 
 
-## Acknowledgments
-
-- Trail data and images are for demonstration purposes only.
-- Code snippets were adapted from resources such as [Stack Overflow](https://stackoverflow.com/) and [MDN Web Docs](https://developer.mozilla.org/).
-- Icons sourced from [FontAwesome](https://fontawesome.com/) and images from [Unsplash](https://unsplash.com/).
-
----
-
-
 ## Limitations and Future Work
 ### Limitations
 
-- Limited trail details (e.g., no live trail conditions).
-- Accessibility features can be further improved.
+- Voting system can be improved.
+- Frontend design could be improved.
 
 ### Future Work
 
-- Implement map view and trailhead directions.
-- Add filtering and sorting options (e.g., by difficulty, distance).
-- Create a dark mode for better usability in low-light conditions.
+- Allow users to change their votes after voting.
+- Make individual users more clear in the chat.
+- Make mobile version cleaner.
 
 ---
 
